@@ -13,8 +13,9 @@ class Header extends React.Component {
               <img
                 src="https://www.sssmediacentre.org/755f75139b00a808ae072efc6cdd7ae8.png"
                 alt=""
+                style={{ maxWidth: '64px', marginRight: '5px' }}
               />
-              <span className="fs-4 pl-3">Sri Sathya Sai Media Centre</span>
+              <span className="fs-4 pl-3">Sri Sathya Sai</span>
             </a>
           </header>
         </div>
