@@ -9,8 +9,9 @@ class App extends React.Component {
       <div>
         <Header />
         <main>
+          
           <div className="container text-center">
-            <h1 className="display-1">Career Opportunities</h1>
+            <h1 className="display-1">Careers</h1>
             <p>
               Work towards a good cause by joining our team of outstanding
               contributors!
