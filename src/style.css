@@ -1,6 +1,14 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
-
 h1,
 p {
   font-family: Lato;
+}
+
+.bg-dark,
+.text-bg-dark {
+  background-color: #004071 !important;
+}
+
+main {
+  position: relative;
+  top: 36px;
 }
