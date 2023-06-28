@@ -1,8 +1,9 @@
 import * as React from "react";
+import { GoogleAuthProvider, signInWithPopup, getAuth, getRedirectResult } from "firebase/auth";
 import Footer from "./include/Footer";
 import Header from "./include/Header";
-import "./locomotive-scroll.css";
 import "./style.css";
+import firebase from "./firebase";
 
 class App extends React.Component {
   constructor(props) {
@@ -11,9 +12,58 @@ class App extends React.Component {
       scroll: 0,
       rotate: 18,
     };
+    this.auth = getAuth();
+    this.provider = new GoogleAuthProvider();
+    this.provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+    this.provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
+    this.provider.addScope('https://www.googleapis.com/auth/user.birthday.read');
+    this.provider.addScope('https://www.googleapis.com/auth/user.gender.read');
+    this.provider.addScope('https://www.googleapis.com/auth/user.organization.read');
+    this.provider.addScope('https://www.googleapis.com/auth/user.phonenumbers.read');
+    this.state = {
+      user: null,
+      token: null
+    }
+    
+  }
+
+  signInwithGoogle = async () => {
+    signInWithPopup(this.auth, this.provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log(user);
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
   }
 
   async componentDidMount() {
+    setTimeout(()=>{
+      getRedirectResult(this.auth).then((result)=>{
+        //const cred = GoogleAuthProvider.credentialFromResult(result);
+        //const token = cred.accessToken;
+        console.log(result);
+        //this.setState({
+        //  user: result.user,
+          //token: token
+        //})
+      }).catch((err)=>{
+        console.log(err);
+      })
+    }, 1000);
     window.addEventListener("scroll", this.handleScroll);
   }
 
@@ -25,7 +75,7 @@ class App extends React.Component {
       scroll: scr,
       rotate: scr / 2 > rotate / 2 ? rotate * 2 : -rotate / 2,
     });
-    console.log(scr, rotate);
+   // console.log(scr, rotate);
   };
   render() {
     return (
@@ -68,21 +118,41 @@ class App extends React.Component {
             className="section-content-o"
             style={{
               backgroundSize: "cover",
-              backgroundImage: `url('/swamichair.png')`,
               minHeight: "calc(100vh - 99px)",
-              alignItems: "flex-end",
+              alignItems: "flex-start",
             }}
           >
             <div className="container">
-              <div className="p-3"></div>
               <div className="row">
                 <div className="col-12">
+                  <div className="p-3"></div>
                   <div
-                    className="section-box-o text-center text-bg-dark p-3"
+                    className="section-box-o text-center p-3"
                     style={{}}
                   >
-                    <h2 className="m-0">Join Sri Sathya Sai Media Centre</h2>
+                    <h2 className="display-4">Join us for the divine mission</h2>
+                    <p>At Sri Sathya Sai Media Centre, you will have the opportunity to work on important initiatives that will make a
+              difference in people's lives and benefit society.</p>
+                    <a href="#applynow" className="btn text-bg-dark">
+                      See Open Positions
+                    </a>
                   </div>
+                  <div className="p-3"></div>
+                  <div className="banner-2-cover" style={{backgroundImage: "url(/swamichair.png)"}}>
+                    <div style={{position:"relative"}}>
+                    <img src="/swamichair.png" style={{maxWidth:"100%", borderRadius:"15px", visibility: 'hidden'}} />
+                    <div className="section-box banner-2" style={{}}>
+                    <div className="contents text-center">
+                    <p>
+                    For the progress of humanity, work alone is not adequate, but the work should be associated with love, compassion, right conduct, truthfulness and sympathy. Without the above qualities, selfless service cannot be performed.
+                    </p>
+                    <strong className="h5">- Sri Sathya Sai Baba</strong>
+                    </div>
+                    
+                    </div>
+                    </div>
+                  </div>
+                  <div className="p-5"></div>
                 </div>
               </div>
             </div>
@@ -95,47 +165,69 @@ class App extends React.Component {
               backgroundSize: "cover",
               backgroundImage: `url('/assets/images/studiowork.jpg')`,
               minHeight: "calc(100vh - 99px)",
+              alignItems:"center"
             }}
           >
-            <div className="container">
+            <div className="container mobile-9">
               <div className="p-2"></div>
               <div className="row">
                 <div className="col-md-6"></div>
                 <div className="col-md-6">
                   <div className="section-box text-center" style={{}}>
-                    <h2 className="text-center">
-                      We would love for you to join our team
-                    </h2>
-                    <h4 className="text-center">if you are skilled to work in</h4>
-                    <ul className="text-start">
-                      <li>Creative Visuals</li>
-                      <li>Web / Application Designing and development</li>
-                      <li>Video making and editing</li>
-                      <li>Music compose and tuning</li>
-                      <li>Unique content authoring</li>
-                    </ul>
-                    graphic design, web programming, application development,
-                    music editing, video editing, or unique content authoring.
-                    At Sri Sathya Sai Media Centre, you will have the
-                    opportunity to work on important initiatives that will make
-                    a difference in people's lives and benefit society.
-                    <code>
-                      A Growth Platform The Sri Sathya Sai Media Centre provides
-                      a platform for growth and learning. We cultivate an
-                      environment that encourages creativity and innovation
-                      while also cultivating individual abilities. Join us today
-                      and become a part of an organisation that works to promote
-                      positive change!
-                    </code>
-                    <div>
-                      <a href="#join" className="btn btn-primary">
-                        <i className="fa-solid fa-angles-down"></i>
-                      </a>
+                    <div className="contents">
+                      <h2 className="text-center">
+                        Apply Now
+                      </h2>
+                      <h4 className="text-center">if you have any skill from below</h4>
+                      <hr />
+                      <ul className="text-start">
+                        <li>Web & App UI/UX designing and development</li>
+                        <li>IT Networking</li>
+                        <li>Photography & Graphics</li>
+                        <li>Social Media & SEO</li>
+                        <li>Video making and editing</li>
+                        <li>Music compose and tuning</li>
+                        <li>Unique content authoring</li>
+
+                      </ul>
+                      
+                      <code>
+                        A Growth Platform The Sri Sathya Sai Media Centre provides
+                        a platform for growth and learning. We cultivate an
+                        environment that encourages creativity and innovation
+                        while also cultivating individual abilities. Join us today
+                        and become a part of an organisation that works to promote
+                        positive change!
+                      </code>
+                      
                     </div>
                   </div>
                 </div>
               </div>
               <div className="p-2"></div>
+            </div>
+          </section>
+          <section
+            id="applynow"
+            className="section-content-o"
+            style={{
+              backgroundSize: "cover",
+              minHeight: "calc(100vh - 99px)",
+              alignItems: "flex-start",
+            }}
+          >
+            <div className="container">
+              <div className="p-3"></div>
+              <h2 className="text-center">Fill the form below</h2>
+              <hr />
+              <div className="row">
+                <div className="col-12">
+                  <div className="p-3"></div>
+                  <div className="text-center">
+                    <button type="button" className="btn btn-warning" onClick={this.signInwithGoogle}>Sign In</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
         </main>

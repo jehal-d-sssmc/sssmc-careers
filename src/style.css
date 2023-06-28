@@ -1,6 +1,16 @@
-h1,
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Merriweather+Sans:wght@300;400;500;700;800&display=swap");
+
+body {
+  font-family: "Merriweather Sans", sans-serif;
+}
+
+h1 {
+  font-family: "Merriweather", serif;
+  font-weight: 900;
+}
+
 p {
-  font-family: Lato;
+  font-family: "Merriweather Sans", sans-serif;
 }
 
 .bg-dark,
@@ -11,4 +21,291 @@ p {
 main {
   position: relative;
   top: 36px;
+}
+
+.banner-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-container .banner-box{
+  color: #004071;
+  padding: 36px;
+  border-radius: 15px;
+  position: relative;
+
+}
+
+.banner-container .banner-box::before{
+  content: "";
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  position: absolute;
+  border-radius: 15px;
+  background-color: rgba(255,255,255,.6);
+  backdrop-filter: blur(10px);
+  -moz-backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.section-content, .section-content-o{
+  display: flex;
+  color: #004071;
+  justify-content: center;
+  align-items: center;
+}
+
+.section-content .section-box, .section-content-o .section-box{
+  color: #004071;
+  padding: 36px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.section-content .section-box::before, .section-content-o .section-box::before{
+  content: "";
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 0;
+  position: absolute;
+  border-radius: 15px;
+  background-color: rgba(255,255,255,.6);
+  backdrop-filter: blur(10px);
+  -moz-backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.section-content .section-box .contents, .section-content-o .section-box .contents{
+  z-index: 1;
+  position: relative;
+}
+
+.banner-2-cover{
+  
+  background-size: cover;
+  background-attachment: fixed;
+  border-radius: 15px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-content-o .section-box.banner-2{
+  position:absolute;
+  left:36px;
+  top:25%;
+  bottom:25%;
+  width:50%;
+  display:flex;
+  align-items:center;
+}
+
+@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Merriweather+Sans:wght@300;400;500;700;800&display=swap");
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: "Merriweather Sans", sans-serif;
+}
+
+h1 {
+  font-family: "Merriweather Sans", sans-serif;
+  font-weight: 900;
+}
+p {
+  font-family: "Lato";
+}
+
+.bg-dark,
+.text-bg-dark,
+.btn-primary {
+  background-color: #004071 !important;
+  border-color: #004071 !important;
+}
+
+main {
+  position: relative;
+  top: 0;
+}
+
+.banner-container {
+  background-size: 100% 126%;
+  background-attachment: fixed;
+  display: flex;
+  align-items: start;
+  justify-content: center;
+  padding: 90px 10%;
+}
+
+.banner-box {
+  width: auto;
+  padding: 72px;
+  position: relative;
+  z-index: 1;
+  color: #004071;
+
+  border-radius: 20px;
+  border: 5px solid #e6e6e6;
+  box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+  transition: 0.4s ease-in-out transform;
+  &:hover {
+    transform: translate3d(0px, 0px, -250px) !important;
+  }
+}
+.banner-box::before {
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  content: " ";
+  background-color: rgba(255, 255, 255, 0.9);
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+}
+
+.section-content {
+  background-size: 100% 126%;
+  background-attachment: fixed;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 90px 10%;
+}
+
+.section-content-o {
+  background-size: 100% 126%;
+  background-attachment: scroll;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0%;
+}
+
+.section-box {
+  width: auto;
+  padding: 72px;
+  position: relative;
+  z-index: 1;
+  color: #004071;
+
+  border-radius: 20px;
+  border: 5px solid #e6e6e6;
+  box-shadow: 0 70px 40px -20px rgba(0, 0, 0, 0.2);
+  transition: 0.4s ease-in-out transform;
+  &:hover {
+    transform: translate3d(0px, 0px, -250px) !important;
+  }
+}
+.section-box::before {
+  z-index: -1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  content: " ";
+  background-color: rgba(255, 255, 255, 0.9);
+  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+}
+
+.banner-box p {
+  font-size: 18px;
+}
+
+.section-content {
+  padding: 54px;
+}
+
+section {
+  position: relative;
+  width: 100%;
+}
+
+footer {
+  margin-top: 81px;
+}
+
+footer .footer-title {
+  background: #074171;
+  padding: 40px 0px;
+  text-align: center;
+}
+
+footer .footer-bottom-section {
+  background: #153147;
+  color: #fff;
+  padding: 17px;
+  padding-left: 20px;
+  padding-right: 20px;
+  text-align: center;
+  font-weight: 100;
+}
+
+@media screen and (max-width: 991px) {
+  .banner-container {
+    background-size: 100% 100%;
+    background-attachment: scroll;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 10vh 10px 0 10px;
+  }
+  .banner-box {
+    width: auto;
+    padding: 36px;
+    position: relative;
+    z-index: 1;
+    color: #004071;
+  }
+  .banner-box::before {
+    background-color: rgba(255, 255, 255, 1);
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+  }
+  .banner-box p {
+    font-size: 18px;
+  }
+  .section-content {
+    padding: 36px;
+  }
+
+  .banner-container .banner-box{
+    transform: translate3d(0px, 0px, 0px) scale(.9,.9) !important;
+  }
+  
+  .banner-2-cover{
+    background-attachment: scroll;
+    background-size:contain;
+  }
+  .section-content-o .section-box.banner-2{
+    position:relative;
+    left:0;
+    top:0%;
+    bottom:0%;
+    width:100%;
+    display:flex;
+    align-items:center;
+  }
+  .mobile-9{
+    position: relative;
+    margin-top: 180px;
+  }
 }
