@@ -1,6 +1,26 @@
 import * as React from "react";
 
 class Header extends React.Component {
+  constructor(props){
+    super(props)
+    
+
+    console.log(this.props)
+  }
+  componentDidMount(){
+    
+  }
+
+  signIn = async () => {
+    await this.props.signInwithGoogle()
+  }
+
+  signOut = async () => {
+    await this.props.signOut();
+  
+    //window.location.reload();
+  }
+
   render() {
     return (
       <>
@@ -15,15 +35,27 @@ class Header extends React.Component {
                 />
                 <span className="fs-4 pl-3">Sri Sathya Sai</span>
               </a>
-              <button
-                className="navbar-toggler text-light"
-                type="button"
-                data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasDarkNavbar"
-                aria-controls="offcanvasDarkNavbar"
-              >
-                <span className="navbar-toggler-icon"></span>
-              </button>
+              {
+                      this.props.user !== null && this.props.user.photoURL !== null ?
+                      
+                        <img type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasDarkNavbar"
+                        aria-controls="offcanvasDarkNavbar" src={this.props.user.photoURL} alt={this.props.user.displayName} style={{marginRight:"10px", width:"45px", borderRadius: "50%"}} />
+                      :
+                      <>
+                      <button
+                        className="navbar-toggler text-light"
+                        type="button"
+                        data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasDarkNavbar"
+                        aria-controls="offcanvasDarkNavbar"
+                      >
+                        <span className="navbar-toggler-icon"></span>
+                      </button>
+                      </>
+              }
+              
               <div
                 className="offcanvas offcanvas-end text-bg-dark"
                 tabIndex={-1}
@@ -32,7 +64,7 @@ class Header extends React.Component {
               >
                 <div className="offcanvas-header">
                   <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">
-                    Menu
+                     <span>{this.props.user === null ? 'Welcome Guest' : `Welcome ${this.props.user.displayName}`} </span>
                   </h5>
                   <button
                     type="button"
@@ -87,6 +119,32 @@ class Header extends React.Component {
                           </a>
                         </li>
                       </ul>
+                    </li>
+                    <li className="nav-item">
+                      {
+                        this.props.user === null ?
+                        <a
+                          className="nav-link"
+                          aria-current="page"
+                          data-bs-dismiss="offcanvas"
+                          aria-label="Close"
+                          onClick={this.signIn}
+                          href="/#applynow"
+                        >
+                         <i class="fa-solid fa-right-to-bracket"></i> Sign In
+                        </a>
+                        :
+                        <a
+                          className="nav-link"
+                          aria-current="page"
+                          data-bs-dismiss="offcanvas"
+                          aria-label="Close"
+                          onClick={this.signOut}
+                          href="#"
+                        >
+                         <i class="fa-solid fa-right-from-bracket"></i> SignOut
+                        </a>
+                      }
                     </li>
                   </ul>
                 </div>

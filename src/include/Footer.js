@@ -12,9 +12,9 @@ class Footer extends React.Component {
   render() {
     return (
       <footer>
-        <div class="footer-title">
-          <div class="container">
-            <div class="title-img">
+        <div className="footer-title">
+          <div className="container">
+            <div className="title-img">
               <img
                 src="https://www.srisathyasai.org/pages/assets/img/sai/footer-logo.svg"
                 alt="sraisaibaba"
@@ -30,12 +30,12 @@ class Footer extends React.Component {
           </div>
         </div>
 
-        <div class="footer-bottom-section">
-          <div class="container">
-            <div class="footer-bottom-content">
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="copy-rights">
+        <div className="footer-bottom-section">
+          <div className="container">
+            <div className="footer-bottom-content">
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="copy-rights">
                     @ {new Date().getFullYear()} <a href="https://www.srisathyasai.org">Sri Sathya Sai Central Trust</a> -
                     <a href="https://www.sssmediacentre.org">SSSMC</a> Division. All Rights Reserved
                   </div>

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GoogleAuthProvider, signInWithPopup, getAuth, getRedirectResult } from "firebase/auth";
+import { GoogleAuthProvider, signInWithPopup, getAuth, getRedirectResult, signOut } from "firebase/auth";
 import Footer from "./include/Footer";
 import Header from "./include/Header";
 import "./style.css";
@@ -21,9 +21,23 @@ class App extends React.Component {
     this.provider.addScope('https://www.googleapis.com/auth/user.organization.read');
     this.provider.addScope('https://www.googleapis.com/auth/user.phonenumbers.read');
     this.state = {
-      user: null,
+      user: false,
       token: null
     }
+
+    
+  }
+
+  signOut = async () => {
+    signOut(this.auth).then(() => {
+      this.setState({
+        user: this.auth.currentUser
+      })
+      // Sign-out successful.
+    }).catch((error) => {
+      console.log(error);
+      // An error happened.
+    });
     
   }
 
@@ -36,6 +50,9 @@ class App extends React.Component {
       // The signed-in user info.
       const user = result.user;
       console.log(user);
+      this.setState({
+        user: user
+      })
       // IdP data available using getAdditionalUserInfo(result)
       // ...
     }).catch((error) => {
@@ -51,19 +68,18 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
-    setTimeout(()=>{
-      getRedirectResult(this.auth).then((result)=>{
-        //const cred = GoogleAuthProvider.credentialFromResult(result);
-        //const token = cred.accessToken;
-        console.log(result);
-        //this.setState({
-        //  user: result.user,
-          //token: token
-        //})
-      }).catch((err)=>{
-        console.log(err);
+    getRedirectResult(this.auth).then((result)=>{
+      //const cred = GoogleAuthProvider.credentialFromResult(result);
+      //const token = cred.accessToken;
+    
+    console.log(this.auth);
+      this.setState({
+        user: this.auth.currentUser
+        //token: token
       })
-    }, 1000);
+    }).catch((err)=>{
+      console.log(err);
+    })
     window.addEventListener("scroll", this.handleScroll);
   }
 
@@ -80,7 +96,11 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Header />
+        {
+          this.state.user === false ? 
+          <div style={{position:"absolute", width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>Loading...</div> :
+          <>
+          <Header user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />
         <main id="data-scroll-container">
           <section
             id="intro"
@@ -134,7 +154,7 @@ class App extends React.Component {
                     <p>At Sri Sathya Sai Media Centre, you will have the opportunity to work on important initiatives that will make a
               difference in people's lives and benefit society.</p>
                     <a href="#applynow" className="btn text-bg-dark">
-                      See Open Positions
+                      Apply Now
                     </a>
                   </div>
                   <div className="p-3"></div>
@@ -218,20 +238,32 @@ class App extends React.Component {
           >
             <div className="container">
               <div className="p-3"></div>
-              <h2 className="text-center">Fill the form below</h2>
+              <h2 className="text-center">Apply Now</h2>
               <hr />
               <div className="row">
                 <div className="col-12">
-                  <div className="p-3"></div>
-                  <div className="text-center">
-                    <button type="button" className="btn btn-warning" onClick={this.signInwithGoogle}>Sign In</button>
-                  </div>
+                  {
+                    this.state.user === null ? 
+                    <>
+                    <div className="p-3"></div>
+                    <div className="text-center">
+                      <button type="button" className="btn btn-warning" onClick={this.signInwithGoogle}>
+                        <img src="https://developers.google.com/static/identity/images/btn_google_signin_light_normal_web.png" alt="Sign In With Google" />
+                      </button>
+                    </div>
+                    <div className="p-3"></div>
+                    </> :
+                    <></>
+                  }
                 </div>
               </div>
             </div>
           </section>
         </main>
-        <Footer />
+        <Footer user={this.state.user} />
+          </>
+        }
+        
       </div>
     );
   }
