@@ -1,78 +1,133 @@
 import * as React from "react";
-import Footer from "./include/Footer";
-import Header from "./include/Header";
+import { GoogleAuthProvider, signInWithPopup, getAuth, getRedirectResult, signOut } from "firebase/auth";
+import Footer from "./components/common/Footer";
+import Header from "./components/common/Header";
 import "./style.css";
 
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
+import firebase from "./firebase";
+import Layout from "./components/common/Layout";
+import Home from "./components/Home";
+import NotFound from "./components/NotFound";
+import Profile from "./components/Profile";
+
+function withParams(Component) {
+  
+  return props => <Component {...props} params={useParams()} />;
+}
+
 class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      scroll: 0,
+      rotate: 18,
+    };
+    this.auth = getAuth();
+    this.provider = new GoogleAuthProvider();
+    this.provider.addScope('https://www.googleapis.com/auth/userinfo.email');
+    this.provider.addScope('https://www.googleapis.com/auth/userinfo.profile');
+    this.provider.addScope('https://www.googleapis.com/auth/user.birthday.read');
+    this.provider.addScope('https://www.googleapis.com/auth/user.gender.read');
+    this.provider.addScope('https://www.googleapis.com/auth/user.organization.read');
+    this.state = {
+      user: false,
+      token: null
+    }
+    console.log(this.props)
+    
+  }
+
+  signOut = async () => {
+    signOut(this.auth).then(() => {
+      this.setState({
+        user: this.auth.currentUser
+      });
+      // Sign-out successful.
+    }).catch((error) => {
+      console.log(error);
+      // An error happened.
+    });
+    
+  }
+
+  signInwithGoogle = async () => {
+    signInWithPopup(this.auth, this.provider)
+    .then((result) => {
+      // This gives you a Google Access Token. You can use it to access the Google API.
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      // The signed-in user info.
+      const user = result.user;
+      console.log(user);
+      this.setState({
+        user: user
+      })
+      // IdP data available using getAdditionalUserInfo(result)
+      // ...
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = GoogleAuthProvider.credentialFromError(error);
+      // ...
+    });
+  }
+
+  async componentDidMount() {
+    getRedirectResult(this.auth).then((result)=>{
+      //const cred = GoogleAuthProvider.credentialFromResult(result);
+      //const token = cred.accessToken;
+    
+    console.log(this.auth.currentUser);
+      this.setState({
+        user: this.auth.currentUser
+        //token: token
+      })
+    }).catch((err)=>{
+      console.log(err);
+    })
+    window.addEventListener("scroll", this.handleScroll);
+  }
+
+  handleScroll = (e) => {
+    let scr = document.querySelector("html").scrollTop;
+    let rotate = scr / 18;
+    //rotate = rotate / 18;
+    this.setState({
+      scroll: scr,
+      rotate: scr / 2 > rotate / 2 ? rotate * 2 : -rotate / 2,
+    });
+   // console.log(scr, rotate);
+  };
   render() {
     return (
       <div>
-        <Header />
-        <main>
-          <div className="container text-center">
-            <h1 className="display-1">Career Opportunities</h1>
-            <p>
-              Work towards a good cause by joining our team of outstanding
-              contributors!
-            </p>
-            <hr />
-
-            <ul className="list-group">
-              <li className="list-group-item">
-                <div className="row">
-                  <div className="col-12 col-sm-6 col-md-4 align-self-center">
-                    <div className="display-4">Employment and Volunteering</div>
-                  </div>
-                  <div className="col-12 col-sm-6 col-md-8 align-self-center">
-                    We are continuously on the lookout for talented people that
-                    are driven to support the organisation. Sai doors are open
-                    to anyone who wants to devote their time and talents to
-                    bettering the planet.
-                  </div>
-                </div>
-              </li>
-              <li className="list-group-item">
-                <div className="row">
-                  <div className="col-12 col-sm-6 col-md-4 align-self-center">
-                    <div className="display-4">Internship Program</div>
-                  </div>
-                  <div className="col-12 col-sm-6 col-md-8 align-self-center">
-                    For those who are looking to gain valuable experience in the
-                    media industry, we offer internship programs in various
-                    fields such as graphic design, web development, application
-                    development, music editing, video editing and creative
-                    content writing. Our internship programs provide hands-on
-                    training and mentorship from experienced professionals.
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-
-          <div className="container">
-            <hr />
-            <h2 className="text-center">Join Sri Sathya Sai Media Centre</h2>
-            <p>
-              We would love for you to join our team of contributors if you have
-              a talent for graphic design, web programming, application
-              development, music editing, video editing, or unique content
-              authoring. At Sri Sathya Sai Media Centre, you will have the
-              opportunity to work on important initiatives that will make a
-              difference in people's lives and benefit society.
-            </p>
-            <code>
-              A Growth Platform The Sri Sathya Sai Media Centre provides a
-              platform for growth and learning. We cultivate an environment that
-              encourages creativity and innovation while also cultivating
-              individual abilities. Join us today and become a part of an
-              organisation that works to promote positive change!
-            </code>
-          </div>
-        </main>
-        <Footer />
+        {
+          this.state.user === false ? 
+          <div style={{position:"absolute", width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>Loading...</div> :
+          <>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Layout user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />}>
+                <Route index element={<Home user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />} />
+                <Route path="/profile" element={<Profile user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />} />
+                <Route path="/profile/:id" element={<Profile user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />} />
+                <Route path="*" element={<NotFound />} />
+              </Route>
+              
+            </Routes>
+          </BrowserRouter>
+          
+          </>
+        }
+        
       </div>
     );
   }
 }
 
-export default App;
+export default withParams(App);
