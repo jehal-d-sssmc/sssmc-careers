@@ -20,7 +20,7 @@ p {
 
 main {
   position: relative;
-  top: 36px;
+  top: 0px;
 }
 
 .banner-container{
@@ -35,6 +35,10 @@ main {
   border-radius: 15px;
   position: relative;
 
+}
+
+span.fs1{
+  font-size: 18px;
 }
 
 .banner-container .banner-box::before{
@@ -130,9 +134,12 @@ p {
   border-color: #004071 !important;
 }
 
-main {
-  position: relative;
+.wrapper {
+  position: absolute;
+  width: 100%;
   top: 0;
+  height: 100%;
+  overflow: auto;
 }
 
 .banner-container {
@@ -238,7 +245,7 @@ section {
 }
 
 footer {
-  margin-top: 81px;
+  margin-top: 0px;
 }
 
 footer .footer-title {

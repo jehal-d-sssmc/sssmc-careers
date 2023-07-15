@@ -1,9 +1,20 @@
 import * as React from "react";
 import { GoogleAuthProvider, signInWithPopup, getAuth, getRedirectResult, signOut } from "firebase/auth";
-import Footer from "./include/Footer";
-import Header from "./include/Header";
+import Footer from "./components/common/Footer";
+import Header from "./components/common/Header";
 import "./style.css";
+
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
 import firebase from "./firebase";
+import Layout from "./components/common/Layout";
+import Home from "./components/Home";
+import NotFound from "./components/NotFound";
+import Profile from "./components/Profile";
+
+function withParams(Component) {
+  
+  return props => <Component {...props} params={useParams()} />;
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -19,12 +30,11 @@ class App extends React.Component {
     this.provider.addScope('https://www.googleapis.com/auth/user.birthday.read');
     this.provider.addScope('https://www.googleapis.com/auth/user.gender.read');
     this.provider.addScope('https://www.googleapis.com/auth/user.organization.read');
-    this.provider.addScope('https://www.googleapis.com/auth/user.phonenumbers.read');
     this.state = {
       user: false,
       token: null
     }
-
+    console.log(this.props)
     
   }
 
@@ -32,7 +42,7 @@ class App extends React.Component {
     signOut(this.auth).then(() => {
       this.setState({
         user: this.auth.currentUser
-      })
+      });
       // Sign-out successful.
     }).catch((error) => {
       console.log(error);
@@ -72,7 +82,7 @@ class App extends React.Component {
       //const cred = GoogleAuthProvider.credentialFromResult(result);
       //const token = cred.accessToken;
     
-    console.log(this.auth);
+    console.log(this.auth.currentUser);
       this.setState({
         user: this.auth.currentUser
         //token: token
@@ -100,167 +110,18 @@ class App extends React.Component {
           this.state.user === false ? 
           <div style={{position:"absolute", width:"100%", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>Loading...</div> :
           <>
-          <Header user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />
-        <main id="data-scroll-container">
-          <section
-            id="intro"
-            className="banner-container"
-            style={{
-              backgroundImage: `url('/sssmc-outer.png')`,
-              backgroundSize: "cover",
-              //backgroundImage: `url('/assets/images/studiowork.jpg')`,
-              height: "calc(100vh - 99px)",
-            }}
-          >
-            <div
-              className="banner-box text-center"
-              style={{
-                transform: `perspective(750px) translate3d(0px, ${
-                  this.state.scroll < 300 ? this.state.scroll : "300"
-                }px, -50px) rotateX(${this.state.rotate}deg)
-    rotateY(0deg) scale(1, 1)`,
-              }}
-            >
-              <h1 className="display-1">CAREERS</h1>
-              <p>
-                Work towards a good cause by joining our team of outstanding
-                contributors!
-              </p>
-              <div>
-                <a href="#join" className="btn btn-primary">
-                  <i className="fa-solid fa-angles-down"></i>
-                </a>
-              </div>
-            </div>
-          </section>
-          <section
-            id="join"
-            className="section-content-o"
-            style={{
-              backgroundSize: "cover",
-              minHeight: "calc(100vh - 99px)",
-              alignItems: "flex-start",
-            }}
-          >
-            <div className="container">
-              <div className="row">
-                <div className="col-12">
-                  <div className="p-3"></div>
-                  <div
-                    className="section-box-o text-center p-3"
-                    style={{}}
-                  >
-                    <h2 className="display-4">Join us for the divine mission</h2>
-                    <p>At Sri Sathya Sai Media Centre, you will have the opportunity to work on important initiatives that will make a
-              difference in people's lives and benefit society.</p>
-                    <a href="#applynow" className="btn text-bg-dark">
-                      Apply Now
-                    </a>
-                  </div>
-                  <div className="p-3"></div>
-                  <div className="banner-2-cover" style={{backgroundImage: "url(/swamichair.png)"}}>
-                    <div style={{position:"relative"}}>
-                    <img src="/swamichair.png" style={{maxWidth:"100%", borderRadius:"15px", visibility: 'hidden'}} />
-                    <div className="section-box banner-2" style={{}}>
-                    <div className="contents text-center">
-                    <p>
-                    For the progress of humanity, work alone is not adequate, but the work should be associated with love, compassion, right conduct, truthfulness and sympathy. Without the above qualities, selfless service cannot be performed.
-                    </p>
-                    <strong className="h5">- Sri Sathya Sai Baba</strong>
-                    </div>
-                    
-                    </div>
-                    </div>
-                  </div>
-                  <div className="p-5"></div>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section
-            className="section-content-o"
-            style={{
-              backgroundAttachment: "fixed",
-              backgroundSize: "cover",
-              backgroundImage: `url('/assets/images/studiowork.jpg')`,
-              minHeight: "calc(100vh - 99px)",
-              alignItems:"center"
-            }}
-          >
-            <div className="container mobile-9">
-              <div className="p-2"></div>
-              <div className="row">
-                <div className="col-md-6"></div>
-                <div className="col-md-6">
-                  <div className="section-box text-center" style={{}}>
-                    <div className="contents">
-                      <h2 className="text-center">
-                        Apply Now
-                      </h2>
-                      <h4 className="text-center">if you have any skill from below</h4>
-                      <hr />
-                      <ul className="text-start">
-                        <li>Web & App UI/UX designing and development</li>
-                        <li>IT Networking</li>
-                        <li>Photography & Graphics</li>
-                        <li>Social Media & SEO</li>
-                        <li>Video making and editing</li>
-                        <li>Music compose and tuning</li>
-                        <li>Unique content authoring</li>
-
-                      </ul>
-                      
-                      <code>
-                        A Growth Platform The Sri Sathya Sai Media Centre provides
-                        a platform for growth and learning. We cultivate an
-                        environment that encourages creativity and innovation
-                        while also cultivating individual abilities. Join us today
-                        and become a part of an organisation that works to promote
-                        positive change!
-                      </code>
-                      
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-2"></div>
-            </div>
-          </section>
-          <section
-            id="applynow"
-            className="section-content-o"
-            style={{
-              backgroundSize: "cover",
-              minHeight: "calc(100vh - 99px)",
-              alignItems: "flex-start",
-            }}
-          >
-            <div className="container">
-              <div className="p-3"></div>
-              <h2 className="text-center">Apply Now</h2>
-              <hr />
-              <div className="row">
-                <div className="col-12">
-                  {
-                    this.state.user === null ? 
-                    <>
-                    <div className="p-3"></div>
-                    <div className="text-center">
-                      <button type="button" className="btn btn-warning" onClick={this.signInwithGoogle}>
-                        <img src="https://developers.google.com/static/identity/images/btn_google_signin_light_normal_web.png" alt="Sign In With Google" />
-                      </button>
-                    </div>
-                    <div className="p-3"></div>
-                    </> :
-                    <></>
-                  }
-                </div>
-              </div>
-            </div>
-          </section>
-        </main>
-        <Footer user={this.state.user} />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Layout user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />}>
+                <Route index element={<Home user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />} />
+                <Route path="/profile" element={<Profile user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />} />
+                <Route path="/profile/:id" element={<Profile user={this.state.user} signInwithGoogle={this.signInwithGoogle} signOut={this.signOut} />} />
+                <Route path="*" element={<NotFound />} />
+              </Route>
+              
+            </Routes>
+          </BrowserRouter>
+          
           </>
         }
         
@@ -269,4 +130,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withParams(App);
