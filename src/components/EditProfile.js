@@ -22,9 +22,7 @@ class EditProfile extends React.Component{
         this.data = {}
         this.countries = Country.getAllCountries();
         this.skills = [
-            {title:"Web & App UI/UX designing and development", option:[
-                
-                {text: "NodeJS"},
+            {title:"Web / App designing & development", option:[
                 {text: "CSS/HTML"},
                 {text: "jQuery/Ajax"},
                 {text: "Javascript"},
@@ -34,11 +32,13 @@ class EditProfile extends React.Component{
                 {text: "React Native"},
                 {text: "PHP"},
                 {text: "WordPress"},
-                {text: "API Integration"},
+                {text: "API Development"},
+                {text: "Ionic"},
+                {text: "Python"},
                 {text: "Android - Kotlin"},
                 {text: "iOS - Swift"},
             ]},
-            {"title": "Data Science & DevOps", option:[
+            {"title": "DevOps", option:[
                 {text: "Docker"},
                 {text: "Linux Fundamentals"},
                 {text: "Github"},
@@ -48,18 +48,17 @@ class EditProfile extends React.Component{
                 {text: "MongoDB"},
                 {text: "NodeJS/ExpressJS"},
                 {text: "SSH/SHELL/BASH"},
+                {text: "SQL/MSSQL/MySQL"},
                 {text: "Source Code Management"},
-                {text: "Code Security Management"}
+                {text: "Code Security Management"},
+                {text: "Virtualization & Automation"},
             ]},
             {title: "IT Networking", option:[
                 {text: "Network Analysis"},
                 {text: "Firewalls and security"},
                 {text: "Networking - WAN, LAN etc."},
-                {text: "Network Programming"},
                 {text: "Hardware Infrastructure"},
                 {text: "DNS / Proxy"},
-                {text: "iOT"},
-                {text: "Virtualization & Automation"},
                 {text: "MPLS"},
                 {text: "File / Data Management"}
             ]},
@@ -80,37 +79,51 @@ class EditProfile extends React.Component{
                 {text: "Share Post on Social Media"},
                 {text: "User Support"}
             ]},
-            {title:"Video making and editing", option: [
+            {title:"Video", option: [
                 {text: "Adobe Premiere Pro"},
                 {text: "Apple Final Cut Pro"},
                 {text: "DaVinci Resolve"},
                 {text: "Adobe After Effects"},
-                {text: "Lightworks"},
+                {text: "Blender"},
             ]},
-            {title:"Music compose and tuning", option: [
+            {title:"Audio", option: [
                 {text: "Adobe Audition"},
                 {text: "Apple Logic Pro"},
-                {text: "FL Studio"},
-                {text: "GarageBand"},
-                {text: "Audacity"},
-                {text: "Sound Forge"},
+                {text: "Nuendo"},
+                {text: "Pro Tools"},
+                {text: "Music Arrangement"},
+                {text: "Recording, Audio Editing, Mixing & Mastering"},
             ]},
-            {title:"Unique content authoring", option: [
-                {text: "Creative Wrting"},
+            {title:"Content Authoring", option: [
+                {text: "Creative Writing"},
                 {text: "Infographic Content"},
-                {text: "Research"}
+                {text: "Research"},
+                {text: "Knowledge of other languages"},
             ]}
-        ]
-        console.log(this.countries);
+        ];
+        this.types = [
+            {title:"Volunteer", val: "volunteer", option:[
+                {text: "Full time", val: "fulltime"},
+                {text: "Part time", val: "parttime"},
+                {text: "Remote", val: "remote"},
+            ]},
+            {title:"Employee", val: "employee", option:[]},
+            {title:"Intern", val: "intern", option:[
+                {text: "Full time", val: "fulltime"},
+                {text: "Part time", val: "parttime"},
+                {text: "Remote", val: "remote"},
+            ]}
+        ];
+        //console.log(this.countries);
         
     }
 
     async componentDidMount(){
         try{
-            console.log(this.props.user)
+            //console.log(this.props.user)
             let data = window.localStorage.getItem('pdata');
             data = JSON.parse(data);
-            console.log(data);
+            //console.log(data);
             this.setState({
                 data: data
             }, async () => {
@@ -130,7 +143,7 @@ class EditProfile extends React.Component{
                 await this.loadControls();
             });
         }catch(ex){
-            console.log(ex);
+            //console.log(ex);
         }
         this.loadControls();
     }
@@ -139,7 +152,10 @@ class EditProfile extends React.Component{
         e.preventDefault();
         if(this.props.user !== null){
             let resp = await setDoc(doc(this.db, "profile", this.props.user.uid), this.state.data);
-            console.log(resp);
+            //console.log(resp);
+            if(resp === undefined){
+                alert("Profile saved!")
+            }
         }
     }
 
@@ -151,13 +167,13 @@ class EditProfile extends React.Component{
             let chk = [];
             let data = this.state.data;
             data.skills.forEach((x)=> {
-             //   console.log(x);
+             //   //console.log(x);
                 
                 let tmp = skills.map((y)=>{
                     return y.map((z)=> {
                         let found = z.option.filter(i => i.text === x);
                         return found[0] !== undefined ? found[0].text : '';
-                       // console.log(found[0]);
+                       // //console.log(found[0]);
                     });
                     //return y.filter(i => i.title === x);
                 });
@@ -165,15 +181,15 @@ class EditProfile extends React.Component{
                 if(tmp.length > 0){
                     chk.push(tmp[0])
                 }
-               // console.log(tmp);
+               // //console.log(tmp);
                 //chk.push(tmp.join('-@-').replace('-@-',''));
                 
-                //console.log(skills.filter(i => i.option.filter(j => j === x)));
+                ////console.log(skills.filter(i => i.option.filter(j => j === x)));
             })
             chk = chk.filter(i => i !== '');
-           // console.log(chk);
-           // console.log(this.data.skills);
-           // console.log(skills);
+           // //console.log(chk);
+           // //console.log(this.data.skills);
+           // //console.log(skills);
            // data.skills = chk;
         }
        
@@ -181,9 +197,17 @@ class EditProfile extends React.Component{
         return skills;
     }
 
+    gettypes = (spl) => {
+        let skills = [];
+       //console.log(spl)
+        skills = Array.isArray(spl) ? spl.map((s) => { return this.types.filter(x => x.val === s) }) : this.types.filter(x => x.val === spl);
+       //console.log(skills);
+       return skills[0] !== undefined ? skills[0].option : [];
+    }
+
     loadControls = async (_state = this.state) => {
-       // console.log(_state.country);
-       // console.log(this.getModel('cover'));
+       // //console.log(_state.country);
+       // //console.log(this.getModel('cover'));
         this.items = [
             {
                 title: "Basic Detail",
@@ -194,28 +218,24 @@ class EditProfile extends React.Component{
                         name: "workas",
                         attr: {
                             onChange: this.updateModel,
-                            checked: this.getModel('workas')        
+                            checked: this.getModel('workas')
                         },
                         option: [
-                            {text: "A Volunteer", val: 'volunteer', defaultChecked: this.getModel('workas') === 'volunteer'},
-                            {text: "An Employee", val: 'employee', defaultChecked: this.getModel('workas') === 'employee'},
-                            {text: "An intern", val: 'intern', defaultChecked: this.getModel('workas') === 'intern'},
+                            {text: "Volunteer", val: 'volunteer', defaultChecked: this.getModel('workas') === 'volunteer'},
+                            {text: "Employee", val: 'employee', defaultChecked: this.getModel('workas') === 'employee'},
+                            {text: "Intern", val: 'intern', defaultChecked: this.getModel('workas') === 'intern'},
                         ]
                     },{
                         title: "Work Type",
-                        type: "radio",
+                        type: "radio-section",
                         name: "worktype",
+                        dataChecked: this.getModel('worktype'),
                         attr: {
-                            checked: this.getModel('worktype'),
                             onChange: this.updateModel
                         },
-                        option: [
-                            {text: "Full Time", val: 'full', defaultChecked: _state.data !== null ? _state.data['worktype'] === 'full' : ''},
-                            {text: "Part Time", val: 'part', defaultChecked: _state.data !== null ?  _state.data['worktype'] === 'part': ''},
-                            {text: "Remote Work", val: 'remote', defaultChecked: _state.data !== null ?  _state.data['worktype'] === 'remote': ''},
-                        ]
+                        option: this.gettypes(this.getModel('workas'))
                     },{
-                        title: "Are you alumni of Sri Sathya Sai Institute?",
+                        title: "Are you an alumni of Sri Sathya Sai Educational Institutions?",
                         name: "alumni",
                         type: "radio",
                         attr: {onChange: this.updateModel, defaultValue: this.getModel('alumni')},
@@ -245,7 +265,7 @@ class EditProfile extends React.Component{
                     {
                         title: "Your Name",
                         name: 'name',
-                        attr: {onChange: this.updateModel, defaultValue: this.getModel('name', this.props.user.displayName)}
+                        attr: {onChange: this.updateModel, defaultValue: this.getModel('name', this.props.user.displayName), required: true},
                     },
                     {
                         title: "Your Gender",
@@ -264,7 +284,7 @@ class EditProfile extends React.Component{
                         defaultValue: this.props.user.email,
                         name: 'dob',
                         type: 'date',
-                        attr: {onChange: this.updateModel, defaultValue: this.getModel('dob')}
+                        attr: {onChange: this.updateModel, defaultValue: this.getModel('dob'), required: true}
                     },
                 ]
             },{
@@ -279,16 +299,7 @@ class EditProfile extends React.Component{
                         attr: {
                             onChange: this.updateModel
                         },
-                        option: [
-                            {text:"Web & App UI/UX designing and development"},
-                            {text:"Data Science & DevOps"},
-                            {text:"IT Networking"},
-                            {text:"Photography & Graphics"},
-                            {text:"Social Media & SEO"},
-                            {text:"Video making and editing"},
-                            {text:"Music compose and tuning"},
-                            {text:"Unique content authoring"}
-                        ]
+                        option: this.skills.map(item => ({text: item.title}))
                     },{
                         title: "Skills",
                         type: "checkbox-section",
@@ -315,7 +326,7 @@ class EditProfile extends React.Component{
                         type: "select",
                         country: _state.country,
                         selected: this.getModel('country'),
-                        attr: {onChange: this.changeState, defaultValue: this.getModel('country')},
+                        attr: {onChange: this.changeState, defaultValue: this.getModel('country'), required: true},
                         option: this.countries.map((c)=> {
                             return {text: c.name, val: JSON.stringify(c)}
                         })
@@ -336,7 +347,7 @@ class EditProfile extends React.Component{
                         name: 'phone',
                         type:'mobile',
                         country: _state.country,
-                        attr: {onChange: this.updateModel, defaultValue: this.getModel('phone', this.props.user.phoneNumber), placeholder:'Your Phone Number'}
+                        attr: {onChange: this.updateModel, defaultValue: this.getModel('phone', this.props.user.phoneNumber), placeholder:'Your Phone Number', required: true}
                     }
                 ]
             },
@@ -348,7 +359,7 @@ class EditProfile extends React.Component{
                         type: "url",
                         name: "linkedIn"
                     },{
-                        title: <><i class="fa-brands fa-github"></i> Github </>,
+                        title: <><i className="fa-brands fa-github"></i> Github </>,
                         type: "url",
                         name: "github"
                     },
@@ -356,6 +367,7 @@ class EditProfile extends React.Component{
                         title:"Resume URL (Google Cloud, One Drive, Dropbox, etc.)",
                         type: "url",
                         name: "resume",
+                        attr: {required: true}
                     }
                 ]
             }
@@ -376,7 +388,7 @@ class EditProfile extends React.Component{
                     x.Que = x.Que.map((q)=>{
                         if(q.name === 'states'){
                             q.option = states;
-                            console.log(q);
+                            //console.log(q);
                         }
                         return q;
                     })
@@ -384,14 +396,14 @@ class EditProfile extends React.Component{
                
                 return x;
             })
-            console.log(items)
+            //console.log(items)
             this.setState({
                 country: detail,
                 states: states
             }, ()=> {
                 this.updateModel(e);
                 this.loadControls();
-                console.log(this.state.country)
+                //console.log(this.state.country)
             })
         }
         
@@ -413,6 +425,18 @@ class EditProfile extends React.Component{
             changed: true
         })
        }
+       //console.log(items);
+       items.forEach((_item)=>{
+        _item.Que.forEach((_que)=> {
+            if(_que.type === 'radio' || _que.type === 'checkbox' || _que.type === 'radio-section' || _que.type === 'checbox-section'){
+                if(_que.option.length < 1){
+                    delete(data[_que.name]);
+                }
+            }
+        })
+       });
+       
+       //console.log(data);
        if(type === 'checkbox'){
         let checked = [];
         if(data[name] === undefined || !Array.isArray(data[name])){
@@ -422,16 +446,20 @@ class EditProfile extends React.Component{
             checked = [...new Set(data[name])];
             checked = !e.target.checked ? checked.filter(x => x !== e.target.value) : checked;
         }
-        console.log(checked.map((x)=>{
+        /*console.log(checked.map((x)=>{
             return e.target.checked ? x + " >>> Checked" : x;
-        }))
-        console.log(name, e.target.checked)
+        }))*/
+        //console.log(name, e.target.checked)
         data[name] = checked;
        
-       }else{
+       }else if(type === 'radio'){
+        data[name] = e.target.value;
+        //console.log(name, data[name]);
+       }
+       else{
             data[name] = e.target.value;
        }
-        console.log(data);
+        //console.log(data);
         this.setState({
             data: data
         }, async () => {
@@ -439,7 +467,7 @@ class EditProfile extends React.Component{
             window.localStorage.setItem('pdata', JSON.stringify(data));
         });
         
-        //console.log(data)
+        ////console.log(data)
         
     }
 
@@ -448,17 +476,19 @@ class EditProfile extends React.Component{
     render(){
         return (<>
             <div className="profile">
+                <form onSubmit={(e)=>{
+                            e.preventDefault();
+                            this.saveData(e);
+                        }}>
                 {
                 Array.isArray(this.state.items) && (this.state.items).map((v,i)=>{
-                   //  console.log(this.state.items);
+                   //  //console.log(this.state.items);
                         let que = v.Que !== undefined ? v.Que.map((x)=>{
-                            //console.log(x.option)
+                            ////console.log(x.option)
                             return _exe.renderControl(x, x.option)
                         }) : <></>;
                         return <>
-                        <form onSubmit={(e)=>{
-                            e.preventDefault();
-                        }}>
+                        
                         <div key={i} className="card mb-2">
                         {
                             <>
@@ -474,10 +504,10 @@ class EditProfile extends React.Component{
                                 this.state.changed && <div className="card-footer">
                                     <div className="row">
                                         <div className="col-6">
-                                            {(this.state.index > 0) && <button className="btn btn-primary">Prev</button>}
+                                            {(this.state.index > 0) && <button type="button" className="btn btn-primary">Prev</button>}
                                         </div>
                                         <div className="col-6 text-end">
-                                            <button onClick={this.saveData} className="btn btn-primary">SAVE</button>
+                                            <button type="submit" className="btn btn-primary">SAVE</button>
                                         </div>
                                     </div>
                                 </div>
@@ -485,12 +515,13 @@ class EditProfile extends React.Component{
                             </>
                         }</div>
                         
-                        </form>
                         </>;
                     })
                 }
                 
+                </form>
             </div>
+            <div className="p-5"></div>
     </>)
     }
 }

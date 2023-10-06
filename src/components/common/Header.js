@@ -25,46 +25,54 @@ class Header extends React.Component {
   render() {
     return (
       <>
-        <header className="p-3 mb-4 border-bottom">
-          <nav className="navbar navbar-dark bg-dark fixed-top">
+        <header className="main-header">
+          <nav className="navbar navbar-dark bg-white-alpha sticky-top p-0">
             <div className="container-fluid">
               <Link className="navbar-brand" to="/">
                 <img
                   src="https://www.sssmediacentre.org/755f75139b00a808ae072efc6cdd7ae8.png"
                   alt=""
-                  style={{ maxWidth: "36px", marginRight: "5px" }}
+                  style={{ maxWidth: "45px", marginRight: "5px" }}
                 />
-                <span className="fs1 pl-3">Sri Sathya Sai</span>
+                <span className="fs1 pl-3 text-danger" style={{fontWeight:"bold"}}>SRI SATHYA SAI</span>
               </Link>
               {
                       this.props.user !== null && this.props.user.photoURL !== null ?
                       
-                        <img type="button"
-                        data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasDarkNavbar"
-                        aria-controls="offcanvasDarkNavbar" src={this.props.user.photoURL} alt={this.props.user.displayName} style={{marginRight:"10px", width:"36px", borderRadius: "50%"}} />
+                        <ul className="d-flex m-0 p-2" style={{alignItems:"center"}}>
+                          <li className="list-inline-item">
+                          <img type="button"
+                          data-bs-toggle="offcanvas"
+                          data-bs-target="#offcanvasDarkNavbar"
+                          aria-controls="offcanvasDarkNavbar" src={this.props.user.photoURL} alt={this.props.user.displayName} style={{marginRight:"10px", width:"36px", borderRadius: "50%"}} />
+                          </li>
+                        
+                        </ul>
                       :
                       <>
-                      <button
-                        className="navbar-toggler text-light"
+                      <img type="button" 
+                          onClick={this.signIn}
+                         src={'/profilepic.png'} alt={'Guest'} style={{marginRight:"10px", width:"36px", borderRadius: "50%"}} />
+                      {/*<button
+                        className="navbar-toggler"
                         type="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasDarkNavbar"
                         aria-controls="offcanvasDarkNavbar"
                       >
-                        <span className="navbar-toggler-icon"></span>
-                      </button>
+                        <i className="fa-solid fa-bars"></i>
+                      </button>*/}
                       </>
               }
               
               <div
-                className="offcanvas offcanvas-end text-bg-dark"
+                className="offcanvas offcanvas-end bg-white-o"
                 tabIndex={-1}
                 id="offcanvasDarkNavbar"
                 aria-labelledby="offcanvasDarkNavbarLabel"
               >
                 <div className="offcanvas-header">
-                  <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">
+                  <h5 className="text-danger" id="offcanvasDarkNavbarLabel">
                      <span className="fs1">{this.props.user === null ? 'Welcome Guest' : `Welcome ${this.props.user.displayName}`} </span>
                   </h5>
                   <button
@@ -72,7 +80,7 @@ class Header extends React.Component {
                     className="btn-close btn-close-white"
                     data-bs-dismiss="offcanvas"
                     aria-label="Close"
-                  ></button>
+                  > <i className="fa-solid fa-close"></i></button>
                 </div>
                 <div className="offcanvas-body">
                   <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">

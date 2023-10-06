@@ -87,7 +87,7 @@ class Home extends React.Component{
                     className="section-box-o text-center p-3"
                     style={{}}
                   >
-                    <h2 className="display-4">Join us for the divine mission</h2>
+                    <h2 className="display-4">Be a part of the divine mission</h2>
                     <p>At Sri Sathya Sai Media Centre, you will have the opportunity to work on important initiatives that will make a
               difference in people's lives and benefit society.</p>
                     <Link to="/profile" className="btn text-bg-dark">
@@ -137,12 +137,11 @@ class Home extends React.Component{
                       </h2>
                       <hr />
                       <p>
-                        A Growth Platform The Sri Sathya Sai Media Centre provides
-                        a platform for growth and learning. We cultivate an
-                        environment that encourages creativity and innovation
-                        while also cultivating individual abilities. Join us today
-                        and become a part of an organisation that works to promote
-                        positive change!
+                      The Sri Sathya Sai Media Centre provides a platform for growth and learning, providing an environment that encourages creativity and innovation. More importantly, the work culture inspires the pure idea of making one's efforts an offering to God. Join us today and become a part of an organisation that works tirelessly to spread the universal message of Bhagawan Sri Sathya Sai Baba!
+
+
+
+
                       </p>
                       
                     </div>

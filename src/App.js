@@ -34,7 +34,7 @@ class App extends React.Component {
       user: false,
       token: null
     }
-    console.log(this.props)
+    //////console.log(this.props)
     
   }
 
@@ -45,7 +45,7 @@ class App extends React.Component {
       });
       // Sign-out successful.
     }).catch((error) => {
-      console.log(error);
+      //////console.log(error);
       // An error happened.
     });
     
@@ -59,7 +59,7 @@ class App extends React.Component {
       const token = credential.accessToken;
       // The signed-in user info.
       const user = result.user;
-      console.log(user);
+      //////console.log(user);
       this.setState({
         user: user
       })
@@ -82,13 +82,13 @@ class App extends React.Component {
       //const cred = GoogleAuthProvider.credentialFromResult(result);
       //const token = cred.accessToken;
     
-    console.log(this.auth.currentUser);
+    //////console.log(this.auth.currentUser);
       this.setState({
         user: this.auth.currentUser
         //token: token
       })
     }).catch((err)=>{
-      console.log(err);
+      //////console.log(err);
     })
     window.addEventListener("scroll", this.handleScroll);
   }
@@ -101,7 +101,7 @@ class App extends React.Component {
       scroll: scr,
       rotate: scr / 2 > rotate / 2 ? rotate * 2 : -rotate / 2,
     });
-   // console.log(scr, rotate);
+   // //////console.log(scr, rotate);
   };
   render() {
     return (

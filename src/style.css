@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Merriweather+Sans:wght@300;400;500;700;800&display=swap");
-
 body {
   font-family: "Merriweather Sans", sans-serif;
 }
@@ -111,7 +110,7 @@ span.fs1{
   align-items:center;
 }
 
-@import url("https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Merriweather+Sans:wght@300;400;500;700;800&display=swap");
+
 html {
   scroll-behavior: smooth;
 }
@@ -126,10 +125,18 @@ h1 {
 p {
   font-family: "Lato";
 }
-
+.main-header{
+  width: calc(100% - 15px);
+}
 .bg-dark,
 .text-bg-dark,
 .btn-primary {
+  background-color: #004071 !important;
+  border-color: #004071 !important;
+}
+
+.offcanvas-header .btn-close{
+  color: #fff;
   background-color: #004071 !important;
   border-color: #004071 !important;
 }
@@ -180,6 +187,18 @@ p {
   -moz-filter: blur(10px);
   -o-filter: blur(10px);
   -ms-filter: blur(10px);
+}
+
+.navbar-toggler{
+  border: 2px solid #004071;
+  color: #004071;
+  transition: 1s all;
+}
+
+
+.navbar-toggler:hover{
+  transform: scale(1.1);
+  transition: 1s all;
 }
 
 .section-content {
@@ -262,6 +281,71 @@ footer .footer-bottom-section {
   padding-right: 20px;
   text-align: center;
   font-weight: 100;
+}
+
+footer a {
+  color: #fff;
+}
+
+footer a:hover{
+  color: #d1d1d1;
+}
+
+
+.copyright a{
+  position: relative;
+}
+.copyright a .sssct-logo{
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  bottom: calc(100% + 10px);
+  left: 0;
+  display: none;
+}
+
+.copyright .sssct-logo img{
+  border-radius: 50%;/* From https://css.glass */
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.copyright a:hover .sssct-logo, .copyright a:focus .sssct-logo{
+  display: inline-block;
+}
+
+.bg-white-alpha{
+  position: relative;
+}
+.bg-white-alpha::after{
+    content: "";
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+  position: absolute;
+  background-color: rgba(255,255,255,.8);
+  backdrop-filter: blur(10px);
+  -moz-backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.offcanvas-body{
+  color: #004071;
+}
+
+.offcanvas-body .navbar-nav .nav-link,.offcanvas-body .navbar-nav .show>.nav-link{
+  color: #004071;
+}
+
+.offcanvas-body .navbar-nav .nav-link.active,.offcanvas-body .navbar-nav .show>.nav-link{
+  display: inline-block;
+  border-bottom: 2px solid #d21d25;
 }
 
 @media screen and (max-width: 991px) {

@@ -5,7 +5,7 @@ class Profile extends React.Component{
 
   async componentDidMount() {
     this.handleScroll();
-    console.log(this.props)
+    //console.log(this.props)
      // window.addEventListener("scroll", this.handleScroll);
   }
   handleScroll = (e) => {
@@ -14,7 +14,7 @@ class Profile extends React.Component{
       document.querySelector("html").scrollTo({ top: 0, behavior: 'smooth' });
       document.querySelector(".wrapper").scrollTo({ top: 0, behavior: 'smooth' });
 
-    // console.log(scr, rotate);
+    // //console.log(scr, rotate);
   };
 
     render(){

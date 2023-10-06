@@ -64,6 +64,29 @@ class exe{
                 
                 <div className="p-2"></div>
             </div>;
+            case 'radio-section':
+                return <>
+                {option.length > 0 && <div className="form-group">
+                    <h6 className='m-0'>{x.title}</h6>
+                    <ul className='list-inline'>
+                    {
+                        option.map((v,i)=>{
+                     //       console.log(v, x);
+                            
+                        return <li className='list-inline-item p-2'>
+                            <div key={i} className="form-check form-check-inline">
+                                <input type="radio"  {...x.attr} id={x.name + `_${i}` } name={x.name} className="form-check-input" checked={x.dataChecked.includes(v.val)} defaultValue={v.val} /> <label className="form-check-label" htmlFor={x.name + `_${i}` }>{v.text}</label>
+                            </div>
+                        </li>
+                           
+                            
+                        })
+                    }
+                    </ul>
+                    
+                    <div className="p-2"></div>
+                </div>}
+                </>;
             case 'date':
             return <div className="form-group">
                 <label>{x.title}</label>
@@ -89,7 +112,7 @@ class exe{
             return <>
             <h6>{x.title}</h6>
             <div className="input-group mb-2">
-                <span className="input-group-text" id="basic-addon1">{x.country !== null ? `${x.country.flag} +${x.country.phonecode}` : ""}</span>
+                <span className="input-group-text" id="basic-addon1">{x.country !== null && x.country.flag !== undefined ? `${x.country.flag} +${x.country.phonecode}` : ""}</span>
                 <input type="text" className="form-control" name={x.name} {...x.attr} aria-label={x.name} aria-describedby="basic-addon1" />
                 <input type="hidden" className="form-control" name={`phoneCode`} value={x.country !== null ? `${x.country.phonecode}` : ""}  />
             </div>

@@ -98,7 +98,7 @@ class EditProfile extends React.Component{
                 {text: "Research"}
             ]}
         ]
-        console.log(this.countries);
+        //console.log(this.countries);
         
     }
 
@@ -106,7 +106,7 @@ class EditProfile extends React.Component{
         try{
             let data = window.localStorage.getItem('pdata');
             data = JSON.parse(data);
-            console.log(data);
+            //console.log(data);
             this.setState({
                 data: data
             }, async () => {
@@ -126,7 +126,7 @@ class EditProfile extends React.Component{
                 await this.loadControls();
             });
         }catch(ex){
-            console.log(ex);
+            //console.log(ex);
         }
         this.loadControls();
     }
@@ -139,13 +139,13 @@ class EditProfile extends React.Component{
             let chk = [];
             let data = this.state.data;
             data.skills.forEach((x)=> {
-             //   console.log(x);
+             //   //console.log(x);
                 
                 let tmp = skills.map((y)=>{
                     return y.map((z)=> {
                         let found = z.option.filter(i => i.text === x);
                         return found[0] !== undefined ? found[0].text : '';
-                       // console.log(found[0]);
+                       // //console.log(found[0]);
                     });
                     //return y.filter(i => i.title === x);
                 });
@@ -153,15 +153,15 @@ class EditProfile extends React.Component{
                 if(tmp.length > 0){
                     chk.push(tmp[0])
                 }
-               // console.log(tmp);
+               // //console.log(tmp);
                 //chk.push(tmp.join('-@-').replace('-@-',''));
                 
-                //console.log(skills.filter(i => i.option.filter(j => j === x)));
+                ////console.log(skills.filter(i => i.option.filter(j => j === x)));
             })
             chk = chk.filter(i => i !== '');
-           // console.log(chk);
-           // console.log(this.data.skills);
-           // console.log(skills);
+           // //console.log(chk);
+           // //console.log(this.data.skills);
+           // //console.log(skills);
            // data.skills = chk;
         }
        
@@ -170,8 +170,8 @@ class EditProfile extends React.Component{
     }
 
     loadControls = async (_state = this.state) => {
-       // console.log(_state.country);
-       // console.log(this.getModel('cover'));
+       // //console.log(_state.country);
+       // //console.log(this.getModel('cover'));
         this.items = [
             {
                 title: "Basic Detail",
@@ -364,7 +364,7 @@ class EditProfile extends React.Component{
                     x.Que = x.Que.map((q)=>{
                         if(q.name === 'states'){
                             q.option = states;
-                            console.log(q);
+                            //console.log(q);
                         }
                         return q;
                     })
@@ -372,14 +372,14 @@ class EditProfile extends React.Component{
                
                 return x;
             })
-            console.log(items)
+            //console.log(items)
             this.setState({
                 country: detail,
                 states: states
             }, ()=> {
                 this.updateModel(e);
                 this.loadControls();
-                console.log(this.state.country)
+                //console.log(this.state.country)
             })
         }
         
@@ -410,16 +410,16 @@ class EditProfile extends React.Component{
             checked = [...new Set(data[name])];
             checked = !e.target.checked ? checked.filter(x => x !== e.target.value) : checked;
         }
-        console.log(checked.map((x)=>{
+        //console.log(checked.map((x)=>{
             return e.target.checked ? x + " >>> Checked" : x;
         }))
-        console.log(name, e.target.checked)
+        //console.log(name, e.target.checked)
         data[name] = checked;
        
        }else{
             data[name] = e.target.value;
        }
-        console.log(data);
+        //console.log(data);
         this.setState({
             data: data
         }, async () => {
@@ -427,7 +427,7 @@ class EditProfile extends React.Component{
             window.localStorage.setItem('pdata', JSON.stringify(data));
         });
         
-        //console.log(data)
+        ////console.log(data)
         
     }
 
@@ -438,9 +438,9 @@ class EditProfile extends React.Component{
             <div className="profile">
                 {
                 Array.isArray(this.state.items) && (this.state.items).map((v,i)=>{
-                   //  console.log(this.state.items);
+                   //  //console.log(this.state.items);
                         let que = v.Que !== undefined ? v.Que.map((x)=>{
-                            //console.log(x.option)
+                            ////console.log(x.option)
                             return _exe.renderControl(x, x.option)
                         }) : <></>;
                         return <>
